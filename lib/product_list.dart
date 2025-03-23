@@ -122,7 +122,7 @@ class _ProductListState extends State<ProductList> {
                           );
                         },
                         child: ProductCard(
-                          title: product['itle'] as String,
+                          title: product['title'] as String,
                           price: product['price'] as double,
                           image: product['imageUrl'] as String,
                           backgroundColor: index.isEven
