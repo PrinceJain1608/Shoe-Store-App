@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/cart_provider.dart';
+import 'package:shop_app/favorites_provider.dart';
+import 'package:shop_app/order_provider.dart';
 import 'package:shop_app/home_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  runApp(MyApp(prefs: prefs));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final SharedPreferences prefs;
+  const MyApp({super.key, required this.prefs});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider(prefs)),
+        ChangeNotifierProvider(create: (context) => FavoritesProvider(prefs)),
+        ChangeNotifierProvider(create: (context) => OrderProvider(prefs)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
